@@ -7,7 +7,7 @@ null_ls.setup({
 		formatting.prettier,
 		formatting.black,
 		formatting.stylua,
-		-- formatting.clang_format,
+		formatting.clang_format,
 		-- formatting.cmake_format,
 		formatting.lua_format.with({
 			extra_args = {

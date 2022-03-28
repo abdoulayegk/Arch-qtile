@@ -17,9 +17,8 @@ require("lsp-config.cmp")
 require("lsp-config.null-ls")
 
 -- Startup
-require ("lsp-diagnostics")
+require("lsp-diagnostics")
 -- Codeformatting
-require ("formatter-config.formatter")
 
 -- Telescope
 require("telescope-config")
