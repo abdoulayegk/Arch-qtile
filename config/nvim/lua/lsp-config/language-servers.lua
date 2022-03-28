@@ -7,17 +7,16 @@ local on_attach = function(client, bufnr)
 	local function buf_set_option(...)
 		vim.api.nvim_buf_set_option(bufnr, ...)
 	end
+	--> added for disable diagnostic
+	client.server_capabilities.completionProvider = false
+	---> end
 
 	buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
-
-	--> added code
-	client.server_capabilities.completionProvider = false
-	--> end added
 
 	local opts = { noremap = true, silent = true }
 
 	buf_set_keymap("n", "gd", ":lua vim.lsp.buf.definition()<CR>", opts) --> jumps to the definition of the symbol under the cursor
-	buf_set_keymap("n", "K", ":lua vim.lsp.buf.hover()<CR>", opts) --> information about the symbol under the cursos in a floating window
+	buf_set_keymap("n", "<leader>K", ":lua vim.lsp.buf.hover()<CR>", opts) --> information about the symbol under the cursos in a floating window
 	buf_set_keymap("n", "gi", ":lua vim.lsp.buf.implementation()<CR>", opts) --> lists all the implementations for the symbol under the cursor in the quickfix window
 	buf_set_keymap("n", "<leader>rn", ":lua vim.lsp.util.rename()<CR>", opts) --> renaname old_fname to new_fname
 	buf_set_keymap("n", "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>", opts) --> selects a code action available at the current cursor position
@@ -30,14 +29,15 @@ local on_attach = function(client, bufnr)
 end
 
 local servers = {
+	"bashls",
 	"pyright",
-	"emmet-ls",
-	"dockerls",
 	"tsserver",
+	"emmet_ls",
+	"sumneko_lua",
 	"eslint",
 }
 
--- ---@diagnostic disable-next-line: undefined-global
+---@diagnostic disable-next-line: undefined-global
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
@@ -52,7 +52,7 @@ for _, name in pairs(servers) do
 end
 
 lsp_installer.on_server_ready(function(server)
-	-- 	-- Specify the default options which we'll use to setup all servers
+	-- Specify the default options which we'll use to setup all servers
 	local default_opts = {
 		on_attach = on_attach,
 		capabilities = capabilities,

@@ -7,19 +7,15 @@ require("barbar-config")
 require("nvim-tree-config")
 require("toggleterm-config")
 require("comment-nvim-config")
-
--- tree-sitter and tree-sitter plugins
+require("neorg-config")
+require("colorizer-config")
+require("shade-config")
+--> tree-sitter and tree-sitter plugins
 require("treesitter-config")
 --> lsp modules
 require("lsp-config.language-servers")
 require("lsp-config.lspsaga")
-require("lsp-config.cmp")
+require("lsp-config.completion")
 require("lsp-config.null-ls")
-
--- Startup
-require("lsp-diagnostics")
--- Codeformatting
-
--- Telescope
-require("telescope-config")
 require("dashboard-config")
+require("whichkey-config")

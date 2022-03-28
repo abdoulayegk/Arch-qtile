@@ -1,6 +1,6 @@
 require'lspsaga'.setup {
     debug = false,
-    use_saga_diagnostic_sign = false,
+    use_saga_diagnostic_sign = true,
     -- diagnostic sign
     error_sign = "",
     warn_sign = "",

@@ -71,12 +71,15 @@ keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
 
 -- --> Autoformatting code
--- vim.api.nvim_exec([[
+-- vim.api.nvim_exec(
+-- 	[[
 -- augroup FormatAutogroup
 --   autocmd!
---   autocmd BufWritePost *.py,*.cpp,*.c FormatWrite
+--   autocmd BufWritePost *.cpp,*.c FormatWrite
 -- augroup END
--- ]], true)
+-- ]],
+-- 	true
+-- )
 
 opt.colorcolumn = "80" -- line lenght marker at 80 columns
 
