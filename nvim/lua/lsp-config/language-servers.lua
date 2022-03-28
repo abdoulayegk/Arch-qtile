@@ -8,7 +8,7 @@ local on_attach = function(client, bufnr)
 		vim.api.nvim_buf_set_option(bufnr, ...)
 	end
 	--> added for disable diagnostic
-	client.server_capabilities.completionProvider = false
+	-- client.server_capabilities.completionProvider = false
 	---> end
 
 	buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
