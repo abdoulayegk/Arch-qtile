@@ -41,3 +41,4 @@ my arch linux qtile config
 - ScreenShot: flameshot, maim
 - TextEditor: nvim, vscode
 - Video player: MPV
+- Icons: [Gruvbox](https://www.pling.com/p/1681313/)
