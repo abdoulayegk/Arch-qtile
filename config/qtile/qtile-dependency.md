@@ -10,7 +10,7 @@ sudo pacman -S alsmixer
 sudo pacman -S kitty
 
 # if you want to use qtile as default on start
-1. Naviatate: ``bash cd /usr/share/xsessions
+1. Naviatate: ```bash cd /usr/share/xsessions```
 2. you will see a file qtile.desktop if it doesn't exit create it
 3. copy and paste below content and save it.
 ```bash
