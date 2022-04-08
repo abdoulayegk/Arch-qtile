@@ -13,11 +13,10 @@ sudo pacman -S kitty
 1. Naviatate: ``bash cd /usr/share/xsessions
 2. you will see a file qtile.desktop if it doesn't exit create it
 3. copy and paste below content and save it.
-``bash
+```bash
 [Desktop Entry]
 Name=Qtile
 Comment=Qtile Session
 Exec=qtile start
 Type=Application
-Keywords=wn,tiling
-``
+Keywords=wn,tiling ```
