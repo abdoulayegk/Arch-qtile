@@ -7,6 +7,11 @@ vim.g.mapleader = " " -- leader key
 --> nvim tree mappings <--
 map("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
 map("n", "<leader>gt", ":NvimTreeFocus<CR>", opts)
+map('n', '<C-h>', '<C-w>h', {noremap = true, silent = false})
+map('n', '<C-l>', '<C-w>l', {noremap = true, silent = false})
+map('n', '<C-j>', '<C-w>j', {noremap = true, silent = false})
+map('n', '<C-k>', '<C-w>k', {noremap = true, silent = false})
+
 --> telescope mappings <--
 map("n", "<leader>t", ":Telescope find_files<cr>", opts)
 map("n", "<leader>fg", ":Telescope live_grep<cr>", opts)
