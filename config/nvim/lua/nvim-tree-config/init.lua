@@ -1,9 +1,2 @@
-require("nvim-tree").setup({
-	-- auto_close = true,
-	diagnostics = {
-		enable = true,
-	},
-	view = {
-		auto_resize = true,
-	},
-})
+vim.g.nvim_tree_width = 25
+require("nvim-tree").setup({ auto_open = 1, gitignore = 1 })

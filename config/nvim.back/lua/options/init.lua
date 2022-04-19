@@ -33,7 +33,6 @@ set.completeopt = "menuone,noselect"
 
 set.hidden = true
 set.mouse = "a"
-opt.colorcolumn = "80" -- line lenght marker at 80 columns
 
 vim.cmd([[colorscheme gruvbox]])
 
@@ -42,14 +41,3 @@ cmd([[au BufWritePre * :%s/\s\+$//e]])
 
 -- don't auto commenting new lines
 cmd([[au BufEnter * set fo-=c fo-=r fo-=o]])
-
--- Autoformatting code
-vim.api.nvim_exec(
-    [[
-augroup FormatAutogroup
-  autocmd!
-  autocmd BufWritePost *.cpp,*.c FormatWrite
-augroup END
-]]   ,
-    true
-)

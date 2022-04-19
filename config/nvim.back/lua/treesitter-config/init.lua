@@ -132,7 +132,4 @@ require("nvim-treesitter.configs").setup({
 		enable = false,
 		enable_autocmd = false,
 	},
-    autotag = {
-    enable = true,
-  }
 })
