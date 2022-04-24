@@ -38,7 +38,6 @@ I mostly try to keep configuration files as minimalistic as possible in order to
 - Fetch: [fetch](https://github.com/Manas140/fetch)
 - FileManager: nautilus
 - ImageViewer: feh
-- MusicPlayer: musikcube
 - MusicVisualiser: cava
 - ScreenShot: flameshot, maim
 - TextEditor: nvim, vscode
