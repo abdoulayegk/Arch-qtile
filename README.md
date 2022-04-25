@@ -43,3 +43,4 @@ I mostly try to keep configuration files as minimalistic as possible in order to
 - TextEditor: nvim, vscode
 - Video player: MPV
 - Icons: [Gruvbox](https://www.pling.com/p/1681313/)
+- PdfReader: Sioyek(Sioyek is a PDF viewer designed for reading research papers and technical books.)[](https://sioyek-documentation.readthedocs.io/en/latest/index.html)
