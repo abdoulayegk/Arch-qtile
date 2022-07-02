@@ -26,7 +26,7 @@ I mostly try to keep configuration files as minimalistic as possible in order to
 
 - WM: Qtile
 - AppLauncher: rofi
-- Font: Iosevka
+- Font: [Iosevka](https://archlinux.org/packages/community/any/ttf-iosevka-nerd/ 
 - LockScreen: i3lock-color
 - Notification: dunst
 - PdfReader: zathura
@@ -34,6 +34,12 @@ I mostly try to keep configuration files as minimalistic as possible in order to
 - Terminal: kitty
 
 ## Others
+Install pip using pacman
+``bash
+sudo pacman -S python-pip
+``
+After this you need to install qtile dependencies
+1. `pip install dbus-next`
 
 - Fetch: [fetch](https://github.com/Manas140/fetch)
 - FileManager: nautilus
