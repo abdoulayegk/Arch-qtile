@@ -11,3 +11,6 @@
 fix it and reboot.
 
 **Note** you have to be careful with the fstab file.
+
+This save my life because I had some very important documents on the computer
+when I got this problem.
