@@ -35,9 +35,9 @@ I mostly try to keep configuration files as minimalistic as possible in order to
 ## Must have packages for volume and brightness control
 `sudo pacman -S alsa-utils lxappearance brightnessctl`
 ## Bluetooth connection
-`sudo pacman -S bluez bluez-utils blueman
- sudo systemctl start bluetooth 
- sudo systemctl enable bluetooth
+1. `sudo pacman -S bluez bluez-utils blueman`
+ 2. `sudo systemctl start bluetooth` 
+  3. `sudo systemctl enable bluetooth`
 `
 
 
