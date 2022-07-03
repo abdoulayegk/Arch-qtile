@@ -14,3 +14,5 @@ fix it and reboot.
 
 This save my life because I had some very important documents on the computer
 when I got this problem.
+
+yes it works.
