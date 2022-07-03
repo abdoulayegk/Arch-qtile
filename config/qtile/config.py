@@ -38,6 +38,7 @@ keys = [
     Key([mod], "s", lazy.spawn('obs'), desc="Launch OBS"),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     # added key
+    Key([mod], "Print", lazy.spawn("flameshot gui")),
     Key([], "Print", lazy.spawn("flameshot screen -p /home/balde/Pictures")),
 
     # Command prompt
