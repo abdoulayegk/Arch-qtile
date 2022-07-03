@@ -32,6 +32,14 @@ I mostly try to keep configuration files as minimalistic as possible in order to
 - PdfReader: zathura
 - Shell: bash, zsh
 - Terminal: kitty
+## Must have packages for volume and brightness control
+`sudo pacman -S alsa-utils lxappearance brightnessctl`
+## Bluetooth connection
+`sudo pacman -S bluez bluez-utils blueman
+ sudo systemctl start bluetooth 
+ sudo systemctl enable bluetooth
+`
+
 
 ## Others
 Install pip using pacman
