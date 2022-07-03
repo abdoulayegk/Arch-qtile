@@ -1,13 +1,12 @@
-####################################
-# QTILE CONFIG BY ABDOULAYE BALDE#
-####################################
-
-# Imports
-from typing import List  # noqa: F401
-from libqtile import bar, layout, widget, qtile
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
-from libqtile.lazy import lazy
 import os
+import subprocess
+from typing import List  # noqa: F401
+
+from libqtile import hook
+
+from libqtile.extension.dmenu import DmenuRun
+from libqtile.extension.window_list import WindowList
+from libqtile.extension.command_set import CommandSet
 
 # import layout objects
 from libqtile.layout.columns import Columns
@@ -15,77 +14,142 @@ from libqtile.layout.xmonad import MonadTall
 from libqtile.layout.stack import Stack
 from libqtile.layout.floating import Floating
 
+# import widgets and bar
 
-# Some quick settings
+from libqtile.config import Click, Drag, DropDown, Group, Key, Match, ScratchPad, Screen
+from libqtile.lazy import lazy
+# from libqtile.utils import guess_terminal
+
+from colors import gruvbox
+
+from bar_transparent_rounded import bar
+
 mod = "mod4"
-modLauncher = "mod4"
-terminal = "kitty -o background_opacity=0.90"
-browser = "brave"
+terminal = "kitty"
+# terminal = guess_terminal()
 
-# Keyshortcut
 keys = [
-    # added above
-    Key([], "Print", lazy.spawn("flameshot screen -p /home/balde/Pictures")),
-    Key([mod], "b", lazy.spawn("brave"), desc="Launch browser"),
-    Key([mod], "d", lazy.spawn("discord"), desc="Launch discord"),
+    # Launch applications
+    #Key([mod, 'shift'], "o", lazy.spawn('firefox'), desc="Launch browser"),
     Key([mod], "o", lazy.spawn("firefox"), desc="Launch firefox"),
-    Key([mod], "s", lazy.spawn("flamshot"), desc="Launch flamshot"),
-    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
-    Key(
-        [mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"
-    ),
-    Key(
-        [mod, "shift"],
-        "l",
-        lazy.layout.shuffle_right(),
-        desc="Move window to the right",
-    ),
-    Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key(
-        [mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"
-    ),
-    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    Key(
-        [mod, "shift"],
-        "Return",
-        lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack",
-    ),
+    # Key([mod], "e", lazy.spawn('kitty -e nnn -d -a -S'),
+    #     desc="Launch nnn in home directory"),
+    Key([mod], "d", lazy.spawn('discord'), desc="Launch discord"),
+    Key([mod], "s", lazy.spawn('obs'), desc="Launch OBS"),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
-    Key(
+    # added key
+    Key([], "Print", lazy.spawn("flameshot screen -p /home/balde/Pictures")),
+
+    # Command prompt
+    # Key([mod], "p", lazy.spawncmd(),
+    #     desc="Spawn a command using a prompt widget"),
+
+     Key(
         [mod],
         "r",
         lazy.spawn('rofi -modi "drun" -show'),
         desc="Spawn a ROFI",
     ),
-    Key([mod], "f", lazy.spawn(browser), desc="Spawn browser"),
-    Key([], "XF86AudioLowerVolume", lazy.spawn("amixer -c 0 -q set Master 1dB-")),
-    Key([], "XF86AudioMute", lazy.spawn("amixer -c 0 -q set Master toggle")),
-    Key([], "Print", lazy.spawn("flameshot full -p Downloads/")),
-    Key([mod], "Print", lazy.spawn("flameshot gui")),
-    Key([mod, "shift"], "f", lazy.window.toggle_floating(), desc="toggle floating"),
-    Key([mod], "f", lazy.window.toggle_fullscreen(), desc="toggle fullscreen"),
+
+    # DmenuRun
+    # Key([mod], 'p', lazy.run_extension(DmenuRun(
+    #     font="TerminessTTF Nerd Font",
+    #     fontsize="13",
+    #     dmenu_command="dmenu_run",
+    #     dmenu_prompt=" ",
+    #     dmenu_height=10,
+    #     dmenu_lines=15,
+    #     background=gruvbox['bg'],
+    #     foreground=gruvbox['fg'],
+    #     selected_foreground=gruvbox['dark-blue'],
+    #     selected_background=gruvbox['bg'],
+    # ))),
+
+    Key([mod, "shift"], 'w', lazy.run_extension(WindowList(
+        all_groups=True,
+        font="TerminessTTF Nerd Font",
+        fontsize="13",
+        dmenu_prompt=" ",
+        dmenu_height=10,
+        # dmenu_lines=15,
+        background=gruvbox['bg'],
+        foreground=gruvbox['fg'],
+        selected_foreground=gruvbox['dark-blue'],
+        selected_background=gruvbox['bg'],
+    ))),
+
+    Key([mod, "control"], 'n', lazy.run_extension(CommandSet(
+        commands={
+            'Thesis notes': 'kitty nvim Neorg/Notes/Thesis/index.norg',
+            'Dev notes': 'kitty nvim Neorg/Notes/Dev/index.norg',
+            'JWL notes': 'kitty nvim Neorg/Notes/JWL/index.norg',
+            'YouTube notes': 'kitty nvim Neorg/YT/index.norg',
+        },
+        background=gruvbox['bg'],
+        foreground=gruvbox['fg'],
+        dmenu_prompt='',
+        dmenu_lines=10,
+        dmenu_height=10,
+        selected_foreground=gruvbox['blue'],
+        selected_background=gruvbox['bg'],
+    ))),
+
+    # Toggle floating and fullscreen
+    Key([mod], "f", lazy.window.toggle_fullscreen(),
+        desc="Toggle fullscreen mode"),
+    Key([mod, "shift"], "space", lazy.window.toggle_floating(),
+        desc="Toggle fullscreen mode"),
+
+    # Keybindings for resizing windows in MonadTall layout
+    Key([mod], "i", lazy.layout.grow()),
+    Key([mod], "m", lazy.layout.shrink()),
+    Key([mod], "n", lazy.layout.normalize()),
+    Key([mod,'shift'], "o", lazy.layout.maximize()),
+    Key([mod, "control"], "space", lazy.layout.flip()),
+
+    # Switch between windows
+    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
+    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
+    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
+    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
+    Key([mod], "space", lazy.layout.next(),
+        desc="Move window focus to other window"),
+
+    # Move windows between left/right columns or move up/down in current stack.
+    # Moving out of range in Columns layout will create new column.
+    Key([mod, "shift"], "h", lazy.layout.shuffle_left(),
+        desc="Move window to the left"),
+    Key([mod, "shift"], "l", lazy.layout.shuffle_right(),
+        desc="Move window to the right"),
+    Key([mod, "shift"], "j", lazy.layout.shuffle_down(),
+        desc="Move window down"),
+    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key(
-        [mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"
-    ),
-    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
+    Key([mod, "control"], "h", lazy.layout.grow_left(),
+        desc="Grow window to the left"),
+    Key([mod, "control"], "l", lazy.layout.grow_right(),
+        desc="Grow window to the right"),
+    Key([mod, "control"], "j", lazy.layout.grow_down(),
+        desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+
+    # Toggle between split and unsplit sides of stack.
+    # Split = all windows displayed
+    # Unsplit = 1 window displayed, like Max layout, but still with
+    # multiple stack panes
+    Key([mod, "shift"], "Return", lazy.layout.toggle_split(),
+        desc="Toggle between split and unsplit sides of stack"),
+
+    # Toggle between different layouts as defined below
+    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
+
+    Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
+    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+
     # Audio control
     Key([], "XF86AudioMute", lazy.spawn("amixer -q set Master toggle")),
     Key([], "XF86AudioLowerVolume", lazy.spawn("amixer -q set Master 5%-")),
@@ -94,271 +158,137 @@ keys = [
     Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl s +5%")),
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl s 5%-")),
     Key([mod], "x", lazy.spawn("betterlockscreen -l blur")),
-    # Reboot and suspend
-    Key([mod, "control"], "s", lazy.spawn("systemctl suspend"), desc="Suspend"),
-    Key([mod, "control"], "p", lazy.spawn("shutdown 0"), desc="Poweroff the pc"),
-    Key([mod, "control"], "r", lazy.spawn("reboot"), desc="Reboot the system"),
 ]
 
-
-grops = {
-    1: Group(" "),
-    2: Group("I"),
-    3: Group("II"),
-    4: Group("III"),
-    5: Group("IV"),
-    6: Group("V"),
-    7: Group("VI"),
-}
-
-groups = [grops[i] for i in grops]
-
-
-def get_key(name):
-    return [k for k, g in grops.items() if g.name == name][0]
-
+groups = [
+    Group('1', label="I", matches=[
+          Match(wm_class='firefox'), Match(wm_class='brave'), Match(wm_class='qutebrowser')], layout="stack"),
+    Group('2', label="II", layout="monadtall"),
+    Group('3', label="III", layout="columns"),
+    Group('4', label="IV", matches=[
+          Match(wm_class='discord'), Match(wm_class='zoom'), Match(wm_class="teams-for-linux")], layout="stack"),
+    Group('5', label="V", matches=[Match(wm_class="obs")], layout="stack"),
+    Group('6', label="VI", layout="monadtall"),
+    Group('7', label="VII", layout="monadtall"),
+    Group('8', label="VIII", layout="monadtall"),
+    Group('9', label="IX", layout="monadtall"),
+]
 
 for i in groups:
-    keys.extend(
-        [
-            Key(
-                [mod],
-                str(get_key(i.name)),
-                lazy.group[i.name].toscreen(),
-                desc="Switch to group {}".format(i.name),
-            ),
-            Key(
-                [mod, "shift"],
-                str(get_key(i.name)),
-                lazy.window.togroup(i.name, switch_group=True),
-                desc="Switch to & move focused window to group {}".format(i.name),
-            ),
-            Key(
-                [mod, "control"],
-                str(get_key(i.name)),
-                lazy.window.togroup(i.name, switch_group=False),
-                desc="move focused window to group {}".format(i.name),
-            ),
-        ]
-    )
+    keys.extend([
+        # mod1 + letter of group = switch to group
+        Key([mod], i.name, lazy.group[i.name].toscreen(),
+            desc="Switch to group {}".format(i.name)),
 
-# Colors
+        # Or, use below if you prefer not to switch to that group.
+        # mod1 + shift + letter of group = move focused window to group
+        Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+            desc="move focused window to group {}".format(i.name)),
+    ])
 
-background_light = ["#3B4252", "#3B4252"]
-background_dark = ["#2E3440", "#2E3440"]
-foreground = ["#D8DEE9", "#D8DEE9"]
-
-red = ["#BF616A", "#BF616A"]
-green = ["#A3BE8C", "#A3BE8C"]
-blue = ["#88c0d0", "#88c0d0"]
-yellow = ["#EBCB8B", "#EBCB8B"]
-orange = ["#D08770", "#D08770"]
-purple = ["#B48EAD", "#B48EAD"]
-
-colors = [
-    ["#282c34", "#282c34"],
-    ["#1c1f24", "#1c1f24"],
-    ["#dfdfdf", "#dfdfdf"],
-    ["#ff6c6b", "#ff6c6b"],
-    ["#98be65", "#98be65"],
-    ["#da8548", "#da8548"],
-    ["#51afef", "#51afef"],
-    ["#c678dd", "#c678dd"],
-    ["#46d9ff", "#46d9ff"],
-    ["#a9a1e1", "#a9a1e1"],
-]
-
-# Layout theme defines how to place windows in my layout (I only use one layout)
-layout_theme = {
-    "border_width": 2,
-    "margin": 6,
-    "border_focus": "e1acff",
-    "border_normal": "1D2330",
-}
-# layouts = [layout.Columns(**layout_theme)]
+# Append scratchpad with dropdowns to groups
+groups.append(ScratchPad('scratchpad', [
+    DropDown('term', 'kitty', width=0.4, height=0.5, x=0.3, y=0.1, opacity=1),
+    DropDown('mixer', 'pavucontrol', width=0.4,
+             height=0.6, x=0.3, y=0.1, opacity=1),
+    DropDown('pomo', 'pomotroid', x=0.4, y=0.2, opacity=1),
+    DropDown('bitwarden', 'bitwarden-desktop',
+             width=0.4, height=0.6, x=0.3, y=0.1, opacity=1),
+]))
+# extend keys list with keybinding for scratchpad
+keys.extend([
+    Key(["control"], "1", lazy.group['scratchpad'].dropdown_toggle('term')),
+    Key(["control"], "2", lazy.group['scratchpad'].dropdown_toggle('mixer')),
+    Key(["control"], "3", lazy.group['scratchpad'].dropdown_toggle('pomo')),
+    Key(["control"], "4", lazy.group['scratchpad'].dropdown_toggle('bitwarden')),
+])
 
 layouts = [
-    layout.Columns(**layout_theme, border_on_single=True, fair=True),
-    layout.Max(),
-    layout.Floating(**layout_theme),
-    # Try more layouts by unleashing below layouts.
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
-    # layout.MonadTall(),
-    # layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
+    Stack(
+        border_normal=gruvbox['dark-gray'],
+        border_focus=gruvbox['blue'],
+        border_width=2,
+        num_stacks=1,
+        margin=10,
+    ),
+    MonadTall(
+        border_normal=gruvbox['dark-gray'],
+        border_focus=gruvbox['blue'],
+        margin=10,
+        border_width=2,
+        single_border_width=2,
+        single_margin=10,
+    ),
+    Columns(
+        border_normal=gruvbox['dark-gray'],
+        border_focus=gruvbox['blue'],
+        border_width=2,
+        border_normal_stack=gruvbox['dark-gray'],
+        border_focus_stack=gruvbox['cyan'],
+        border_on_single=2,
+        margin=10,
+        margin_on_single=10,
+    )
 ]
 
+floating_layout = Floating(
+    border_normal=gruvbox['dark-gray'],
+    border_focus=gruvbox['red'],
+    border_width=3,
+    float_rules=[
+        *Floating.default_float_rules,
+        Match(wm_class='confirmreset'),  # gitk
+        Match(wm_class='makebranch'),  # gitk
+        Match(wm_class='maketag'),  # gitk
+        Match(wm_class='ssh-askpass'),  # ssh-askpass
+        Match(title='branchdialog'),  # gitk
+        Match(title='pinentry'),  # GPG key password entry
 
-# Bluetooth
-def open_bluetooth(qtile):
-    qtile.cmd_spawn("blueman-manager")
+        Match(title="Android Emulator - pixel5:5554"),
+        Match(wm_class="blueman-manager"),
+        Match(wm_class="pavucontrol"),
+        Match(wm_class="zoom"),
+        Match(wm_class="bitwarden"),
+        Match(wm_class="nemo"),
+    ])
 
-
+# Drag floating layouts.
+mouse = [
+    Drag([mod], "Button1", lazy.window.set_position_floating(),
+         start=lazy.window.get_position()),
+    Drag([mod], "Button3", lazy.window.set_size_floating(),
+         start=lazy.window.get_size()),
+    Click([mod], "Button2", lazy.window.bring_to_front())
+]
 widget_defaults = dict(
-    font="Iosevka Extended",
-    fontsize=15,
-    padding=2,
-    background=background_dark,
-    foreground=foreground,
+    font='TerminessTTF Nerd Font',
+    fontsize=13,
+    padding=10,
+    foreground=gruvbox['bg'],
 )
+
 extension_defaults = widget_defaults.copy()
 
-screens = [
-    Screen(
-        top=bar.Bar(
-            [
-                widget.Sep(
-                    linewidth=0, padding=6, foreground=colors[2], background=colors[0]
-                ),
-                widget.GroupBox(
-                    this_screen_border=colors[3],
-                    this_current_screen_border=purple,
-                    rounded=False,
-                    highlight_method="line",
-                    font="Iosevka Extended",
-                    disable_drag=True,
-                    foreground=colors[3],
-                    inactive="#797d93",
-                    borderwidth=5,
-                    highlight_color=["#4b5162", "#4b5162"],
-                    urgent_border=colors[3],
-                ),
-                widget.Prompt(),
-                widget.Spacer(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": (colors[5], "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                widget.Sep(),
-                # widget.WiFiIcon(padding=5),
-                # WIFI
-                # widget.TextBox(
-                #     # font="icons",
-                #     fontsize=16,
-                #     text=" ",
-                #     mouse_callbacks={"Button1": open_bluetooth},
-                #     padding=8,
-                #     foreground=colors[5],
-                # ),
-                # Volume
-                # widget.Volume(
-                #     foreground=colors[3],
-                #     fontsize=15,
-                # ),
-                # Clock
-                widget.Sep(),
-                widget.Clock(
-                    foreground=purple,
-                    format="%a %I:%M %p ",
-                    fontsize=14,
-                    padding=4,
-                ),
-                widget.Sep(),
-                widget.Sep(),
-                # Battery
-                widget.Battery(
-                    foreground=purple,
-                    fontsize=15,
-                    battery=0,
-                    charge_char=" ",
-                    update_interval=60,
-                    discharge_char="",
-                    font="Iosevka Extended",
-                    padding=8,
-                    format=" {percent:2.0%}",
-                    low_percentage=0.3,
-                ),
-                widget.Sep(),
-                widget.Sep(),
-                widget.Bluetooth(),
-                widget.TextBox(
-                    fontsize=14,
-                    text="",
-                    padding=8,
-                    foreground=colors[5],
-                ),
-                widget.Sep(),
-                widget.Sep(
-                    inewidth=0, padding=6, foreground=colors[2], background=colors[0]
-                ),
-                widget.TextBox(
-                    font="icons",
-                    text=" ",
-                    padding=8,
-                    foreground=purple,
-                    fontsize=16,
-                ),
-                widget.Sep(),
-                widget.Sep(),
-            ],
-            15,
-            background=colors[1],
-        ),
-    ),
-]
-
-
-# added below
-widget_defaults = dict(
-    font="Iosevka Extended",
-    fontsize=13,
-    padding=2,
-    forgeground=colors[2],
-)
-
-
-mouse = [
-    Drag(
-        [mod],
-        "Button1",
-        lazy.window.set_position_floating(),
-        start=lazy.window.get_position(),
-    ),
-    Drag(
-        [mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()
-    ),
-    Click([mod], "Button2", lazy.window.bring_to_front()),
-    Click([mod, "shift"], "Button1", lazy.window.disable_floating()),
-    Click([mod], "Button1", lazy.window.bring_to_front()),
-]
+screens = [Screen(top=bar)]
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
 follow_mouse_focus = True
-bring_front_click = True
+bring_front_click = ''
 cursor_warp = False
-floating_layout = layout.Floating(
-    float_rules=[
-        # Run the utility of `xprop` to see the wm class and name of an X client.
-        *layout.Floating.default_float_rules,
-        Match(wm_class="confirmreset"),  # gitk
-        Match(wm_class="makebranch"),  # gitk
-        Match(wm_class="maketag"),  # gitk
-        Match(wm_class="ssh-askpass"),  # ssh-askpass
-        Match(title="branchdialog"),  # gitk
-        Match(title="pinentry"),  # GPG key password entry
-    ],
-    **layout_theme
-)
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
-
-# If things like steam games want to auto-minimize themselves when losing
-# focus, should we respect this or not?
 auto_minimize = True
-
 wmname = "LG3D"
 
 
+@hook.subscribe.startup_once
+def autostart():
+    home = os.path.expanduser('~/.config/qtile/autostart.sh')
+    subprocess.run([home])
+
+# added config
 autostart = [
     "feh --bg-fill /home/balde/.config/qtile/walp.jpg",
     "picom --no-vsync &",
