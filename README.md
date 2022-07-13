@@ -1,4 +1,5 @@
 # Arch-qtile
+![Arch Linux with Qtile]('qtile.png')
 
 This repository contains configuration files I use on my host system, which is Arch Linux. I sync those in order to simplify setting up working environment whenever I have to.
 
@@ -26,7 +27,7 @@ I mostly try to keep configuration files as minimalistic as possible in order to
 
 - WM: Qtile
 - AppLauncher: rofi
-- Font: [Iosevka](https://archlinux.org/packages/community/any/ttf-iosevka-nerd/ 
+- Font: [Iosevka](https://archlinux.org/packages/community/any/ttf-iosevka-nerd/
 - LockScreen: i3lock-color
 - Notification: dunst
 - PdfReader: zathura
@@ -36,7 +37,7 @@ I mostly try to keep configuration files as minimalistic as possible in order to
 `sudo pacman -S alsa-utils lxappearance brightnessctl`
 ## Bluetooth connection
 1. `sudo pacman -S bluez bluez-utils blueman`
- 2. `sudo systemctl start bluetooth` 
+ 2. `sudo systemctl start bluetooth`
   3. `sudo systemctl enable bluetooth`
 `
 
