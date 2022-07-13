@@ -1,5 +1,5 @@
 # Arch-qtile
-![Arch Linux with Qtile]('qtile.png')
+![Arch Linux with Qtile](qtile.png)
 
 This repository contains configuration files I use on my host system, which is Arch Linux. I sync those in order to simplify setting up working environment whenever I have to.
 
