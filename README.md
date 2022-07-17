@@ -29,10 +29,9 @@ I mostly try to keep configuration files as minimalistic as possible in order to
 - AppLauncher: rofi
 - Font: [Iosevka](https://archlinux.org/packages/community/any/ttf-iosevka-nerd/
 - LockScreen: i3lock-color
-- Notification: dunst
 - PdfReader: zathura
 - Shell: bash, zsh
-- Terminal: kitty
+- Terminal: kitty and Alacritty
 ## Must have packages for volume and brightness control
 `sudo pacman -S alsa-utils lxappearance brightnessctl`
 ## Bluetooth connection
@@ -44,7 +43,7 @@ I mostly try to keep configuration files as minimalistic as possible in order to
 
 ## Others
 Install pip using pacman
-``bash
+``
 sudo pacman -S python-pip
 ``
 After this you need to install qtile dependencies
