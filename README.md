@@ -37,8 +37,13 @@ I mostly try to keep configuration files as minimalistic as possible in order to
 ## Bluetooth connection
 1. `sudo pacman -S bluez bluez-utils blueman`
  2. `sudo systemctl start bluetooth`
-  3. `sudo systemctl enable bluetooth`
+  3. `sudo systemctl enable bluetooth
 `
+# To install and configer lightdm
+1. install light with the following command ``` paru pacaur -S lightdm-webkit-theme-aether```
+2. Go to ```cd /etc/lightdm``` change default sessions to qtile then save exit
+3. Enable it with the following ```sudo systemctl start lightdm.service && sudo systemctl enable lightdm.service -f```.
+4. Reboot.
 
 
 ## Others
