@@ -27,7 +27,7 @@ I mostly try to keep configuration files as minimalistic as possible in order to
 
 - WM: Qtile
 - AppLauncher: rofi
-- Font: [Iosevka](https://archlinux.org/packages/community/any/ttf-iosevka-nerd/
+- Font: [Iosevka](https://archlinux.org/packages/community/any/ttf-iosevka-nerd/)
 - LockScreen: i3lock-color
 - PdfReader: zathura
 - Shell: bash, zsh
@@ -40,7 +40,7 @@ I mostly try to keep configuration files as minimalistic as possible in order to
   3. `sudo systemctl enable bluetooth
 `
 # To install and configer lightdm
-1. install light with the following command ``` paru pacaur -S lightdm-webkit-theme-aether```
+1. install [lightdm](https://github.com/NoiSek/Aether) with the following command ``` paru -S lightdm-webkit-theme-aether```
 2. Go to ```cd /etc/lightdm``` change default sessions to qtile then save exit
 3. Enable it with the following ```sudo systemctl start lightdm.service && sudo systemctl enable lightdm.service -f```.
 4. Reboot.
